@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(cors());
 
 // Routes middleware
-app.use("/api/user", userRoutes);
+app.use("/api", userRoutes);
 
 // Connect to MongoDB Atlas
 connectToDatabase();

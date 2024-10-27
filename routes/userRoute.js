@@ -6,13 +6,10 @@ const authMiddleware = require("../middlewares/auth"); // Protect the routes
 // Protected route to create a new user at /create
 router.post("/create", authMiddleware, userController.createUser);
 
-// Protected route to get a user by email
-router.get("/:email", authMiddleware, userController.getUserByEmail);
+// Route to get retirement funds
+router.get("/retirement/:email", userController.getRetirementFunds);
 
-// Protected route to update a user by email
-router.put("/:email", authMiddleware, userController.updateUserByEmail);
-
-// Protected route to delete a user by email
-router.delete("/:email", authMiddleware, userController.deleteUserByEmail);
+// Route to get investments
+router.get("/investments/:email", userController.getInvestments);
 
 module.exports = router;

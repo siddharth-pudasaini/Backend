@@ -27,7 +27,7 @@ const authMiddleware = (req, res, next) => {
     const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
     const timeDifference = currentTime - tokenTime;
 
-    if (timeDifference > 360) {
+    if (timeDifference > 3600) {
       return res.status(401).json({ message: "Token expired" });
     }
 

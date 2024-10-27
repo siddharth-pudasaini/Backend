@@ -18,60 +18,39 @@ const createUser = async (req, res) => {
   }
 };
 
-// Get user by email
-const getUserByEmail = async (req, res) => {
+// Controller to get retirement funds (Four03, TRS, IRA) by user email
+const getRetirementFunds = async (req, res) => {
   try {
-    const user = await User.findOne({ email: req.params.email });
-
+    const user = await User.findOne(
+      { email: req.params.email },
+      { Four03: 1, TRS: 1, IRA: 1, _id: 0 }
+    );
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
-    res.status(200).json(user);
+    res.json(user);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(500).json({ error: "Server error" });
   }
 };
 
-// Update user by email
-const updateUserByEmail = async (req, res) => {
+// Controller to get investments by user email
+const getInvestments = async (req, res) => {
   try {
-    const updatedUser = await User.findOneAndUpdate(
+    const user = await User.findOne(
       { email: req.params.email },
-      req.body,
-      { new: true, runValidators: true }
+      { investments: 1, _id: 0 }
     );
-
-    if (!updatedUser) {
+    if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
-    res.status(200).json(updatedUser);
+    res.json(user.investments);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(500).json({ error: "Server error" });
   }
 };
-
-// Delete user by email
-const deleteUserByEmail = async (req, res) => {
-  try {
-    const deletedUser = await User.findOneAndDelete({
-      email: req.params.email,
-    });
-
-    if (!deletedUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    res.status(200).json({ message: "User deleted successfully" });
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
-
 module.exports = {
   createUser,
-  getUserByEmail,
-  updateUserByEmail,
-  deleteUserByEmail,
+  getRetirementFunds,
+  getInvestments,
 };
